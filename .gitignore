@@ -1,0 +1,11 @@
+# Ignore mac directory files
+.DS_Store
+
+# Ignore auxiliary raster XML
+*.aux.xml
+
+# Ignore compiled Python directories
+__pycache__
+
+# Ignore OneDrive files
+desktop.ini
