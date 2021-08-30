@@ -5,4 +5,4 @@
 * REPOSITORY: sdd-2021
 
 This is Spatial Data Discovery - Semester Repository (Fall 2021).
-See also Spatial Data Discovery - [Organization Repository](https://github.com/spatial-data-discovery/spatial-data-discovery.github.io)
+See also Spatial Data Discovery - [Organization Repository](https://github.com/spatial-data-discovery/spatial-data-discovery.github.io) and [Course Website](https://spatial-data-discovery.github.io/)
