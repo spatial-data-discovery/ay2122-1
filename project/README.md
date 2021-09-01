@@ -1,3 +1,5 @@
+Overview
+--------
 The purpose of this project is for you to showcase spatial data on a public website (https://spatial-data-discovery.github.io). The task is to find (or create) spatial data that interests you; explain why it is interesting; describe what it is, where it came from, and any processes you used to create/modify it; and produce a visualization of the data that expresses your interest to others.
 
 - must include at least one graphic (still or animated); (e.g., a PNG or MP4)
@@ -22,7 +24,7 @@ The assessment of the project is broken down into categories as described below.
 
 A Graphical Representation of Deliverables
 ------------------------------------------
-Point allocations are shown in the margin.
+Percent allocations are shown in the margin.
 
 ```
 EMAIL
