@@ -4,7 +4,10 @@
 * Tyler Davis (dt-woods)
 * Alaa Mokbel (amokbel)
 * Shane Evanson (shaneevanson)
+<<<<<<< Updated upstream
 * Soheb Osmani (sosmani1)
 * Masaccio Braun (Mersacci)
+=======
+>>>>>>> Stashed changes
 * Laura Brancati (laurabrancati)
 
