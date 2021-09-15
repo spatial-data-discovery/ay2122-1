@@ -4,14 +4,12 @@
 * Tyler Davis (dt-woods)
 * Alaa Mokbel (amokbel)
 * Shane Evanson (shaneevanson)
-<<<<<<< Updated upstream
 * Soheb Osmani (sosmani1)
 * Masaccio Braun (Mersacci)
-=======
->>>>>>> Stashed changes
 * Laura Brancati (laurabrancati)
 * Caroline Wall (caroline-wall)
 * Luke Denoncourt (LukeD77)
 * Bryce Whitney (bswhitneyWM)
 * Sarah Larimer (sjl1970106)
 * Ben Sharrer (basharrer1)
+* Minkyong Song (minkysong)
