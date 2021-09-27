@@ -9,3 +9,6 @@ This directory is for storing data files associated with the Spatial Data Discov
 
 # dtwoods.txt
 * ASCII raster example file.
+
+# caroline-wall.txt
+* ASCII raster example (Sandbox 3)
