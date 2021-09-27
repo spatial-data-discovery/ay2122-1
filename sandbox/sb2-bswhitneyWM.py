@@ -43,8 +43,8 @@ def locateImages(photo_directory):
         # Convert from GPS to decimal degree coordinates
         coordinates.append(_convertToCoordinates(latitude.values, latitude_dir, longitude.values, longitude_dir))
 
-    # Close the file
-    f.close()
+        # Close the file
+        f.close()
     
     # Generate a geojson file from the coordinates
     geoPath = _generateGEOJSON(coordinates)
@@ -68,11 +68,6 @@ def _generateGEOJSON(coordinates):
         gfile.write('''
                     {
                         "type": "FeatureCollection",
-                        "name": "example",
-                        "crs": { 
-                            "type": "name", 
-                            "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } 
-                        },
                         "features": [
                     ''')
 
@@ -81,7 +76,7 @@ def _generateGEOJSON(coordinates):
                             {{
                                 "type": "Feature", 
                                 "properties": {{ 
-                                    "ID": 1 
+                                    "ID": {imageCount} 
                                 }}, 
                                 "geometry": {{ 
                                     "type": "Point", 
@@ -116,7 +111,6 @@ def _convertToCoordinates(latitude, latitude_dir, longitude, longitude_dir):
     lat = latitude[0] + latitude[1]/60.0 + latitude[2]/3600.0 
 
     # Check Directions
-    #print(longitude_dir)
     if(str(latitude_dir) == 'S'):
         lat *= -1
     if(str(longitude_dir) == 'W'):
