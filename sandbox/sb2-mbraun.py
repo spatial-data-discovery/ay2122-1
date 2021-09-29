@@ -1,4 +1,5 @@
 # This script extracts exif data from an image(s) and returns the geographic coordinates of its capture.
+# Written using ideas from <script src="https://gist.github.com/erans/983821.js"></script>
 # Masaccio Braun
 # Last edited: 2021-09-28
 
@@ -27,19 +28,19 @@ def get_key(data, key):
     return None
 
 def degree_convert(value):
-    d0 = value[0][0]
-    d1 = value[0][1]
-    d = float(d0) / float(d1)
+    deg1 = value[0][0]
+    deg2 = value[0][1]
+    deg = float(deg1) / float(deg2)
 
-    m0 = value[1][0]
-    m1 = value[1][1]
-    m = float(m0) / float(m1)
+    min1 = value[1][0]
+    min2 = value[1][1]
+    min = float(min1) / float(min2)
 
-    s0 = value[2][0]
-    s1 = value[2][1]
-    s = float(s0) / float(s1)
+    sec1 = value[2][0]
+    sec2 = value[2][1]
+    sec = float(sec1) / float(sec2)
 
-    return d + (m / 60.0) + (s / 3600.0)
+    return deg + (min / 60.0) + (sec / 3600.0)
 
 def get_lat_lon(exif_data):
     lat = None
