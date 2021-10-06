@@ -41,8 +41,14 @@ def _validateFiles(all_files):
         # Store header variables in a dictionary
         header = {}
         with open(file) as f:
+            missingHeaders = False # check later so same error isn't shown multiple times
             for line in range(HEADER_LENGTH):
-                key, val = f.readline().split()
+                try:
+                    key, val = f.readline().split()
+                except ValueError:
+                    print(f"Missing some headers in {filename}\n")
+                    missingHeaders = True
+                    continue
 
                 # Add to dictionary and ensure the data is numeric
                 try:
@@ -51,6 +57,8 @@ def _validateFiles(all_files):
                     print(f"Ensure all header values are numeric in {filename}\n")
                     allFilesFormattedWell = False
                     continue
+            if(missingHeaders):
+                continue
         
         # Get data values and check they are all separated properly
         try:
