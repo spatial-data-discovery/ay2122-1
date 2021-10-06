@@ -54,11 +54,9 @@ def _validateFiles(all_files):
         
         # Get data values and check they are all separated properly
         try:
-            data_values = np.loadtxt(file, delimiter=" ", skiprows=6)
+            data_values = np.loadtxt(file, delimiter=" ", skiprows=6, usecols=range(int(header['NCOLS'])))
         except ValueError:
-            print(f"""Issue with {filename}... Check the following:
-                    1. Not all rows have the same number of columns (check for spaces at the end of rows)
-                    2. Not all data is numeric\n""")
+            print(f"""Issue with {filename}... Check that all data is numeric\n""")
             allFilesFormattedWell = False
             continue
 
