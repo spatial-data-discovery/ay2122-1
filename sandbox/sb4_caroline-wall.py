@@ -33,13 +33,13 @@ if os.path.isdir(my_dir):
             value_error = False
 
             if num_cols != values.shape[1]: # verify NCOLS and NROWS with shape of array
-                col_error is True
+                col_error = True
             if num_rows != values.shape[0]:
-                row_error is True
+                row_error = True
             for row in values: # iterate through each value to verify it is a number
                 for val in row:
                     if isinstance(val, numpy.float64) is False:
-                        value_error is True
+                        value_error = True
 
             if col_error:
                 print('There is an error with ' + my_file + ': NCOLS does not match the number of columns.')
@@ -47,3 +47,5 @@ if os.path.isdir(my_dir):
                 print('There is an error with ' + my_file + ': NROWS does not match the number of rows.')
             if value_error:
                 print('There is an error with ' + my_file + ': Not all values are numbers.')
+            else:
+                print(my_file + ' has no errors.')
