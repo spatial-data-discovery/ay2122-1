@@ -1,3 +1,4 @@
+# Required Imports
 import numpy as np
 import os
 
@@ -61,23 +62,22 @@ def _validateFiles(all_files):
             allFilesFormattedWell = False
             continue
 
-        # Check NCOLS and NROWS match the dataset
-        try:
-            if header['NCOLS'] != data_values.shape[1] or header['NROWS'] != data_values.shape[0]:
-                print(f"NROWS or NCOLS doesn't match the data provided in {filename}")
-                allFilesFormattedWell = False
-                continue
-        except KeyError:
-            print(f"Key Error in {filename}: Double Check NCOLS and NROWS are named properly\n")
-            allFilesFormattedWell = False
-            continue
-
         # Check Header variables are appropriate
         corner_headers = ['NCOLS', 'NROWS', 'XLLCORNER', 'YLLCORNER', 'CELLSIZE', 'NODATA_VALUE']
         center_headers = ['NCOLS', 'NROWS', 'XLLCENTER', 'YLLCENTER', 'CELLSIZE', 'NODATA_VALUE']
 
         if(list(header.keys()) != corner_headers and list(header.keys()) != center_headers):
             print(f'Improper header names in {filename}\n')
+            allFilesFormattedWell = False
+            continue
+
+        # Check NCOLS and NROWS match the dataset
+        try:
+            if header['NCOLS'] != data_values.shape[1] or header['NROWS'] != data_values.shape[0]:
+                print(f"NROWS or NCOLS doesn't match the data provided in {filename}")
+                allFilesFormattedWell = False
+        except KeyError:
+            print(f"Key Error in {filename}: NCOLS or NROWS are named incorrectly\n")
             allFilesFormattedWell = False
 
     # Return result
