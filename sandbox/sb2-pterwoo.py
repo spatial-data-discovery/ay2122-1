@@ -29,12 +29,12 @@ def get_exif(filename):
     """
     Features:
      - Returns a dictionary with keys that correspond to different data
-
     Inputs:
      - filename: Name of the file where the data will be pulled from
-
     Outputs:
      - image._getexif(): dictionary with numeric keys
+
+    Ref: https://developer.here.com/blog/getting-started-with-geocoding-exif-image-metadata-in-python3
     """
     image = Image.open(filename)
     image.verify()
@@ -44,12 +44,12 @@ def get_labeled_exif(exif):
     """
     Features:
      - Returns human readable tags
-
     Inputs:
      - exif: dictionary of numeric keys, extracted with get_exif() function
-
     Outputs:
      - labeled: dictionary of tags and metadata
+
+    Ref: https://developer.here.com/blog/getting-started-with-geocoding-exif-image-metadata-in-python3
     """
     labeled = {}
     for (key, val) in exif.items():
@@ -61,12 +61,12 @@ def get_geotagging(exif):
     """
     Features:
      - Returns dictionary of meaningful geographic metadata
-
     Inputs:
      - exif: dictionary of numeric keys, extracted with get_exif() function
-
     Outputs:
      - geotagging: dictionary of geographical attributes
+
+    Ref: https://developer.here.com/blog/getting-started-with-geocoding-exif-image-metadata-in-python3
     """
     if not exif:
         raise ValueError("No EXIF metadata found")
@@ -88,13 +88,15 @@ def get_decimal_from_dms(dms, ref):
     Features:
      - Using the DMS values extracted from get_geotagging, return
        single decimal coordinate value
-
     Inputs:
      - dms: DMS value extracted with get_geotagging
      - ref: Ordinal directions also extracted with get_geotagging
-
     Outputs:
      - round(degrees + minutes + seconds, 5): single decimal coordinate value
+
+    Ref:
+     - https://developer.here.com/blog/getting-started-with-geocoding-exif-image-metadata-in-python3
+     - https://stackoverflow.com/questions/64405326/django-exif-data-ifdrational-object-is-not-subscriptable
     """
     degrees = dms[0]
     minutes = dms[1] / 60.0
@@ -109,16 +111,16 @@ def get_decimal_from_dms(dms, ref):
 
 def get_coordinates(geotags):
     """
-        Features:
-         - Using the DMS values extracted from get_geotagging, return
-           full longitude and latitude coordinates
+    Features:
+     - Using the DMS values extracted from get_geotagging, return
+         full longitude and latitude coordinates
+    Inputs:
+     - geotags: DMS values extracted with get_geotagging
+    Outputs:
+    - (lat, lon): latitude and longitude coordinates
 
-        Inputs:
-         - geotags: DMS values extracted with get_geotagging
-
-        Outputs:
-         - (lat, lon): latitude and longitude coordinates
-        """
+    Ref: https://developer.here.com/blog/getting-started-with-geocoding-exif-image-metadata-in-python3
+    """
     lat = get_decimal_from_dms(geotags['GPSLatitude'], geotags['GPSLatitudeRef'])
 
     lon = get_decimal_from_dms(geotags['GPSLongitude'], geotags['GPSLongitudeRef'])
@@ -129,13 +131,12 @@ def generate_markers(coor):
     """
     Features:
      - Takes in longitude and latitude coordinates and plots them on a map using the folium package
-
     Inputs:
      - coor: list containing longitude and latitude coordinates
-
      Outputs:
       - marked_map: a map containing the markers for the coordinates
 
+    Ref: https://medium.com/analytics-vidhya/generating-maps-with-python-maps-with-markers-part-2-2e291d987821
     """
     map = folium.Map()
     markers = folium.map.FeatureGroup()
@@ -172,3 +173,4 @@ if __name__ == "__main__":
             coords.append(final_coords)
 
     generate_markers(coords)
+
