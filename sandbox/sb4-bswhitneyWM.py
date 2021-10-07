@@ -1,6 +1,7 @@
 # Required Imports
 import numpy as np
 import os
+import string
 
 def main(dataFolder):
     """Reads in all the ASCII raster files and then calls _validateFiles() to check that they
@@ -31,7 +32,6 @@ def _validateFiles(all_files):
         all_files (list): list containing all the file paths
     """
 
-    HEADER_LENGTH = 6
     allFilesFormattedWell = True # Track if any files aren't properly formatted
 
     # Loop through files
@@ -40,41 +40,73 @@ def _validateFiles(all_files):
         
         # Store header variables in a dictionary
         header = {}
+        headerLength = 0
+        headerIssue = False
+
         with open(file) as f:
-            missingHeaders = False # check later so same error isn't shown multiple times
-            for line in range(HEADER_LENGTH):
+            inHeader = True
+            while inHeader: 
+                # Read values in. If there are more than 2, we are outside the header
                 try:
                     key, val = f.readline().split()
                 except ValueError:
-                    print(f"Missing some headers in {filename}\n")
-                    missingHeaders = True
-                    continue
+                    inHeader = False
+                    break
 
-                # Add to dictionary and ensure the data is numeric
-                try:
-                    header[key.upper()] = float(val)
-                except ValueError:
-                    print(f"Ensure all header values are numeric in {filename}\n")
-                    allFilesFormattedWell = False
-                    continue
-            if(missingHeaders):
-                continue
+                # Check that the keys are strings
+                if(key.isupper() is False and key.islower() is False):
+                    inHeader = False
+                else:
+                    headerLength += 1
+                    try:
+                        header[key.upper()] = float(val)
+                    except ValueError:
+                        print(f"Ensure all header values are numeric in {filename}\n")
+                        inHeader = False
+                        allFilesFormattedWell = False
+                        headerIssue = True
+
+        # Fix header issues before continuing, because it will cause more errors
+        if(headerIssue):
+            continue
+
+        # Check that the header length this 5 or 6
+        if(headerLength > 6):
+            print(f"Header is too long in {filename}\n")
+            allFilesFormattedWell = False
+            continue
+
+        elif(headerLength < 5):
+            print(f"Header is too short in {filename}\n")
+            allFilesFormattedWell = False
+            continue
         
         # Get data values and check they are all separated properly
+        # TODO: CHECK ERRORS I CAN RECIEVE
         try:
-            data_values = np.loadtxt(file, delimiter=" ", skiprows=6)
+            data_values = np.genfromtxt(file, delimiter=" ", skip_header=headerLength, autostrip=True)
         except ValueError:
-            print(f"""Issue with {filename}... Check:
-                    1. All data is numeric
-                    2. Equal number of columns in each row (including spaces)\n""")
+            print(f"Issue with {filename}... Need equal # of columns in each row\n")
+            allFilesFormattedWell = False
+            continue
+
+        # Check all values are numeric
+        if(np.isnan(data_values).any()):
+            print(f"Not all data numeric in {filename}\n")
             allFilesFormattedWell = False
             continue
 
         # Check Header variables are appropriate
-        corner_headers = ['NCOLS', 'NROWS', 'XLLCORNER', 'YLLCORNER', 'CELLSIZE', 'NODATA_VALUE']
-        center_headers = ['NCOLS', 'NROWS', 'XLLCENTER', 'YLLCENTER', 'CELLSIZE', 'NODATA_VALUE']
+        corner_headers = set(['NCOLS', 'NROWS', 'XLLCORNER', 'YLLCORNER', 'CELLSIZE'])
+        center_headers = set(['NCOLS', 'NROWS', 'XLLCENTER', 'YLLCENTER', 'CELLSIZE'])
 
-        if(list(header.keys()) != corner_headers and list(header.keys()) != center_headers):
+        if(corner_headers.issubset(header.keys()) == False and center_headers.issubset(header.keys()) == False):
+            print(f'Improper header names in {filename}\n')
+            allFilesFormattedWell = False
+            continue
+             
+        # Check 'NODATA_VALUE' spelled right if it is present 
+        if(len(header.keys()) == 6 and 'NODATA_VALUE' not in set(header.keys())):
             print(f'Improper header names in {filename}\n')
             allFilesFormattedWell = False
             continue
@@ -82,7 +114,7 @@ def _validateFiles(all_files):
         # Check NCOLS and NROWS match the dataset
         try:
             if header['NCOLS'] != data_values.shape[1] or header['NROWS'] != data_values.shape[0]:
-                print(f"NROWS or NCOLS doesn't match the data provided in {filename}")
+                print(f"NROWS or NCOLS doesn't match the data provided in {filename}\n")
                 allFilesFormattedWell = False
         except KeyError:
             print(f"Key Error in {filename}: NCOLS or NROWS are named incorrectly\n")
