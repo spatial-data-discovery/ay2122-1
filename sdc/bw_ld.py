@@ -1,9 +1,23 @@
+###############################################################
+#File Name: bw_ld.py                                          #
+# Python Version: 3.8.10                                      #
+#                                                             #
+# Author: Bryce Whitney and Luke Denoncourt                   #
+# Last Edit: October 13, 2021                                 #
+#                                                             #
+# Reads in 3 ascii raster files, fills in the missing values, #
+# and outputs the 3 gap-filled raster bands and a color image #
+# of them combined                                            #
+###############################################################
+
+
 # Required Imports
 import numpy as np
 import string
 import os
 from zipfile import ZipFile
 from scipy import ndimage as nd
+from PIL import Image
 
 # Dictionary to track the header values
 HEADER_VALS = dict()
@@ -56,6 +70,7 @@ def fill(data):
     idx = nd.distance_transform_edt(noData_idx, 
                                     return_distances = False,
                                     return_indices = True)
+    
     return data[tuple(idx)]
 
 def generateOutput(red_data, green_data, blue_data, outputPath=os.getcwd()):
@@ -113,8 +128,8 @@ def main():
     and outputs the three resulting ascii files 
     """
 
+    # Read in the files
     red, green, blue = read_files()
-    #rgbArray = np.dstack(red, green, blue) # Combine into a 1200 x 1600 x 3 array
     
     # Gap Filling
     red_full = fill(red)
@@ -123,6 +138,13 @@ def main():
 
     # Create Output Files
     generateOutput(red_full, green_full, blue_full)
+
+    # Create filled rgb array
+    rgbArray_full = (np.dstack((red_full, green_full, blue_full))).astype(np.uint8)
+
+    # Create Image
+    img = Image.fromarray(rgbArray_full)
+    img.save('bw_ld.png')
 
 
 if __name__ == "__main__":
