@@ -1,5 +1,6 @@
 import numpy
 
+
 x = []
 file = open('blue.asc').readlines()
 for line in file:
