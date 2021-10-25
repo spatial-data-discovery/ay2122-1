@@ -29,7 +29,7 @@ Percent allocations are shown in the margin.
 ```
 EMAIL
 -----------------------------------------------------------------------------
-    | TO: DAVIS
+    | TO: INSTRUCTOR
     | SUBJECT: DATA 431 - PROJECT FILES
     | - PROJECT TITLE: provide a meaningful / catchy title for your project
 16% | - MEDIA ATTACHMENT: (.png, .jpg, .mp4, other)
