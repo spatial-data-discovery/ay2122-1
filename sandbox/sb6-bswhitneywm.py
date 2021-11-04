@@ -119,9 +119,9 @@ def main(fileDirectory):
     # Latitude Dimension
     NetCDFfile.createDimension('latitude', int(header['NROWS']))
     latitude = NetCDFfile.createVariable('latitude', 'f', ('latitude', ))
-    latitude[0] = header['YLLCORNER'] + header['CELLSIZE']
+    latitude[0] = header['YLLCORNER'] + (header['CELLSIZE'] / 2)
     for i in range(1, int(header['NROWS'])):
-        latitude[i] = latitude[i-1] + header['CELLSIZE']
+        latitude[i] = latitude[i-1] + (header['CELLSIZE'] / 2) 
     latitude.units = 'degrees_north'
 
     # Time Dimension
