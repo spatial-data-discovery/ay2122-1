@@ -111,9 +111,9 @@ def main(fileDirectory):
     # Longitude Dimension
     NetCDFfile.createDimension('longitude', int(header['NCOLS']))
     longitude = NetCDFfile.createVariable('longitude', 'f', ('longitude', ))
-    longitude[0] = header['XLLCORNER'] + header['CELLSIZE']
+    longitude[0] = header['XLLCORNER'] + (header['CELLSIZE'] / 2)
     for i in range(1, int(header['NCOLS'])):
-        longitude[i] = longitude[i-1] + header['CELLSIZE']
+        longitude[i] = longitude[i-1] + (header['CELLSIZE'] / 2)
     longitude.units = 'degrees_east'
 
     # Latitude Dimension
